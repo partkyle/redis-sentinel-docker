@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  redis:
+    image: redis:2.8
+    volumes:
+      - ./etc/sentinel.conf:/etc/redis/sentinel.conf
+    ports:
+      - "6379:6379"
+
+  sentinel:
+    image: redis:2.8
+    volumes:
+      - ./etc/sentinel.conf:/etc/redis/sentinel.conf
+    ports:
+      - "26379:26379"
+    links:
+      - redis
+    command: redis-sentinel /etc/redis/sentinel.conf
